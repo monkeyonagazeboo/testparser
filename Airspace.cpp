@@ -6,6 +6,15 @@ namespace Updraft
 	{
 		QString text("");
 
+		this->validAN = false;
+		this->validAL = false;
+		this->validAH = false;
+		this->validTO = false;
+		this->validX = false;
+		this->CW = true;
+		this->Wi = -1;
+		this->validZ = false;
+
 		ts >> text;
 		if (text != "AC") return;
 		
@@ -26,8 +35,12 @@ namespace Updraft
 		{
 			ts >> text;
 
+			QString parse;
+			ts.skipWhiteSpace();
+			parse = ts.readLine();
+
 			if (text == "*")
-				ts.readLine();
+				continue;
 
 			else if (text == "AC")
 			{
@@ -38,42 +51,85 @@ namespace Updraft
 			
 			else if (text == "AN")
 			{
-				ts.skipWhiteSpace();
-				this->AN = ts.readLine();
+				this->AN = parse;
 			}
 
 			else if (text == "AL")
 			{
-				ts.skipWhiteSpace();
-				this->AL = ts.readLine(); // !!! can be text e.g. Ask on 122.8 !!!
+				this->AL = parse; // !!! can be text e.g. Ask on 122.8 !!!
 			}
 
 			else if (text == "AH")
 			{
-				ts.skipWhiteSpace();
-				this->AH = ts.readLine(); // !!! can be text e.g. Ask on 122.8 !!!
+				this->AH = parse; // !!! can be text e.g. Ask on 122.8 !!!
 			}
 
 			else if (text == "AT")
 			{
-				ts.skipWhiteSpace();
-				AT.push_back(ParseCoord(ts.readLine())); 
+				AT.push_back(ParseCoord(parse)); 
 			}
 
 			else if (text == "V")
 			{
-				QString parse;// = ts.readLine();
-				ts.skipWhiteSpace();
-				parse = ts.readLine();
-				if (parse.at(0) == 'X')
+				QChar ch = parse.at(0);
+				parse = parse.right(parse.size() - parse.indexOf('=') -1);
+				if (ch == 'X')
 				{
-					X = ParseCoord(parse.right(parse.size() - parse.indexOf('=') -1));
+					X = ParseCoord(parse);
+				}
+				else if (ch == 'D')
+				{
+					if (parse.trimmed().at(0) == '-')
+						this->CW = false;
+					else
+						this->CW = true;
+				}
+				else if (ch == 'W')
+				{
+					this->Wi = parse.toInt();
+				}
+				else if (ch == 'Z')
+				{
+					this->Z = parse.toFloat();
+					this->validZ = true;
 				}
 				
-				//AN = ts.readLine();
+			} // V
+			
+			else if (text == "DP")
+			{
+				this->DP.push_back(ParseCoord(parse));
 			}
 			
-			
+			else if (text == "DA")
+			{
+				ArcI arc;
+				arc.Zoom;//TODO : zoom not initialised
+				parse.indexOf(',');
+				ArcI arc;
+				arc.
+				this->DA.push_back(arc);
+			}
+
+			else if (text == "DP")
+			{
+
+			}
+
+			else if (text == "DP")
+			{
+
+			}
+
+			else if (text == "DP")
+			{
+
+			}
+
+			else if (text == "DP")
+			{
+
+			}
 		}
 	}
 
