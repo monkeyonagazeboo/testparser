@@ -132,17 +132,20 @@ namespace Updraft {
 		/// Airspace Name.
 		/// Contains the name of the aispace.
 		/// Required.
-		QString AN; 
+		QString AN;
+		bool validAN;
 
 		/// Airspace Ceiling
 		/// Altitude ciling of the airspace in ft.
 		/// AH < AL
 		QString AH;
+		bool validAH;
 
 		/// Airspace Floor.
 		/// Altitude floor of the airspace in ft.
 		/// Use -10000 for SFC.
 		QString AL;
+		bool validAL;
 
 		/// Airspace name label coordinates.
 		/// List of coordinates, where to place the airspace name label on the map.
@@ -152,18 +155,24 @@ namespace Updraft {
 		/// Terrain related variables \{
 		/// Terrain open polygon name
 		QString TO;
+		bool validTO;
 
 		/// \}
 		/// Record type - terrain & airspace \{
 		/// Centre of the polygon/circle.
-		Coordinate X; //NA
+		Coordinate X; 
+		bool validX;
+
+		/// Arc direction.
+		bool CW;
 
 		/// Airway width in nm. -1 for not set. 
 		int Wi;
 
 		/// Zoom level.
 		/// Sets the zoom level at which the airspace become visible.
-		float Z; // NA
+		float Z; 
+		bool validZ;
 
 		/// Add polygon points
 		QList<Coordinate> DP;
