@@ -67,7 +67,8 @@ namespace Updraft
 
 			else if (text == "AT")
 			{
-				AT.push_back(ParseCoord(parse)); 
+				Coordinate* cor = new Coordinate(ParseCoord(parse));
+				AT.push_back(*cor); 
 			}
 
 			else if (text == "V")
