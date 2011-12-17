@@ -171,7 +171,7 @@ namespace Updraft {
 
 		/// Zoom level.
 		/// Sets the zoom level at which the airspace become visible.
-		float Z; 
+		float Z;
 		bool validZ;
 
 		/// Add polygon points
@@ -201,6 +201,8 @@ namespace Updraft {
 		/// Arcs in airspace
 		QList<ArcI> DA;
 		QList<ArcII> DB;
+		bool validDA;
+		bool validDB;
 		/// \}
 
 		/// Circles in the airspace. \{

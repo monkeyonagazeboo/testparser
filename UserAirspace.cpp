@@ -21,11 +21,10 @@ namespace Updraft
 		while(text != "AC" && !ts.atEnd())
 			ts >> text;
 
-		if(!ts.atEnd())
-			ts.seek(ts.pos() -3);
-
 		while (!ts.atEnd())
 		{
+			if(!ts.atEnd())
+				ts.seek(ts.pos() -3);
 			Airspace nextairspace(ts);
 			this->allAirspaces.push_back(nextairspace);
 		}

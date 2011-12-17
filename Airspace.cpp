@@ -2,7 +2,7 @@
 
 namespace Updraft
 {
-	Airspace::Airspace(QTextStream &ts)
+	Airspace::Airspace(QTextStream& ts)
 	{
 		QString text("");
 
@@ -10,16 +10,19 @@ namespace Updraft
 		this->validAL = false;
 		this->validAH = false;
 		this->validTO = false;
-		this->validX = false;
-		this->CW = true;
-		this->Wi = -1;
-		this->validZ = false;
+		this->validX  = false;
+		this->CW      = true;
+		this->Wi      = -1;
+		this->validZ  = false;
+		this->validDA = false;
+		this->validDB = false;
+		//float Airspace::Z;
 
 		ts >> text;
 		if (text != "AC") return;
 		
 		ts >> text;
-		if (text == "R") this->AC = R;
+		if (text      == "R") this->AC = R;
 		else if (text == "Q") this->AC = Q;
 		else if (text == "P") this->AC = P;
 		else if (text == "A") this->AC = A;
@@ -35,6 +38,8 @@ namespace Updraft
 		{
 			ts >> text;
 
+			if (text == "AC") return;
+
 			QString parse;
 			ts.skipWhiteSpace();
 			parse = ts.readLine();
@@ -42,26 +47,22 @@ namespace Updraft
 			if (text == "*")
 				continue;
 
-			else if (text == "AC")
-			{
-				// Return the stream before AC and exits
-				ts.seek(ts.pos() -3);
-				return;
-			}
-			
 			else if (text == "AN")
 			{
 				this->AN = parse;
+				validAN = true;
 			}
 
 			else if (text == "AL")
 			{
 				this->AL = parse; // !!! can be text e.g. Ask on 122.8 !!!
+				validAL = true;
 			}
 
 			else if (text == "AH")
 			{
 				this->AH = parse; // !!! can be text e.g. Ask on 122.8 !!!
+				validAH = true;
 			}
 
 			else if (text == "AT")
@@ -75,7 +76,8 @@ namespace Updraft
 				parse = parse.right(parse.size() - parse.indexOf('=') -1);
 				if (ch == 'X')
 				{
-					X = ParseCoord(parse);
+					this->X = ParseCoord(parse);
+					//this->validX = true;
 				}
 				else if (ch == 'D')
 				{
@@ -91,7 +93,7 @@ namespace Updraft
 				else if (ch == 'Z')
 				{
 					this->Z = parse.toFloat();
-					this->validZ = true;
+					//this->validZ = true;
 				}
 				
 			} // V
@@ -103,27 +105,63 @@ namespace Updraft
 			
 			else if (text == "DA")
 			{
+				//init
+				//TODO : ArcI* arc = new ArcI;
 				ArcI arc;
-				arc.Zoom;//TODO : zoom not initialised
-				parse.indexOf(',');
-				ArcI arc;
-				arc.
-				this->DA.push_back(arc);
+				if (validZ) arc.Zoom = this->Z;
+				if (validX) arc.Centre = this->X;
+				arc.CW = this->CW;
+
+				// parse row
+				int i = parse.indexOf(',');
+				arc.R = parse.left(i).toInt();
+
+				parse = parse.right(parse.size() - i -1 );
+				i = parse.indexOf(',');
+				arc.Start = parse.left(i).toInt();
+
+				parse = parse.right(parse.size() - i -1 );
+				arc.End = parse.toInt();
+
+				arc.valid = true;
+				this->DA.push_back(arc); //TODO : pointery! = destruktory!
 			}
 
-			else if (text == "DP")
+			else if (text == "DB")
 			{
+				//init
+				//TODO : ArcI* arc = new ArcI;
+				ArcII arc;
+				if (validZ) arc.Zoom = this->Z;
+				if (validX) arc.Centre = this->X;
+				arc.CW = this->CW;
 
+				// parse row
+				int i = parse.indexOf(',');
+				arc.Start = ParseCoord(parse.left(i));
+
+				parse = parse.right(parse.size() - i -1 );
+				
+				parse = parse.right(parse.size() - i -1 );
+				arc.End = arc.Start = ParseCoord(parse);
+				
+				arc.valid = true;
+				this->DB.push_back(arc); //TODO : pointery! = destruktory!
 			}
 
-			else if (text == "DP")
+			else if (text == "DC")
 			{
+				Circle cir;
+				if (validZ) cir.Zoom = this->Z;
+				if (validX) cir.Centre = this->X;
 
+				// parse row
+				cir.R = parse.toInt();
 			}
 
-			else if (text == "DP")
+			else if (text == "DY")
 			{
-
+				//TODO : airways
 			}
 
 			else if (text == "DP")
