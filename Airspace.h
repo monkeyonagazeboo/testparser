@@ -84,7 +84,7 @@ UserAirspace parser library.
 //using namespace System;
 
 namespace Updraft {
-
+	
 	class Airspace
 	{
 	public :
@@ -121,6 +121,8 @@ namespace Updraft {
 		*     CTR CTR
 		*     W Wave Window */
 		enum ACType { R, Q, P, A, B, C, D, GP, CTR, W };
+
+		static Coordinate X;
 
 	private :
 		/// Parse the coordinates from string
@@ -167,7 +169,7 @@ namespace Updraft {
 		/// \}
 		/// Record type - terrain & airspace \{
 		/// Centre of the polygon/circle.
-		Coordinate X; 
+		//static Coordinate X; 
 		bool validX;
 
 		/// Arc direction.
@@ -229,7 +231,7 @@ namespace Updraft {
 		QList<Coordinate> DY;
 		/// \}
 	};// UserAirspace
-
+	
 }// Updraft
 
 

@@ -1,10 +1,14 @@
 #include "UserAirspace.h"
 
+Updraft::Airspace::Coordinate Updraft::Airspace::X;
+
 namespace Updraft
 {
 	Airspace::Airspace(QTextStream& ts)
 	{
 		QString text("");
+
+		//X.valid = false;
 
 		this->validAN = false;
 		this->validAL = false;
@@ -17,7 +21,7 @@ namespace Updraft
 		this->validDA = false;
 		this->validDB = false;
 		//float Airspace::Z;
-		this->X.valid = false;
+		//this->X.valid = false;
 		this->Z = -1;
 
 		ts >> text;
@@ -85,7 +89,7 @@ namespace Updraft
 			}
 
 			else if (text == "SP")
-			{
+			{//TODO: SP,SB - rozparsovat do byte
 				this->SP = parse;
 				//validSP = true;
 			}
@@ -102,7 +106,8 @@ namespace Updraft
 				parse = parse.right(parse.size() - parse.indexOf('=') -1);
 				if (ch == 'X')
 				{
-					this->X = ParseCoord(parse);
+					//this->X = ParseCoord(parse);
+					X = ParseCoord(parse);
 					this->validX = true;
 				}
 				else if (ch == 'D')
@@ -134,7 +139,7 @@ namespace Updraft
 				//init
 				ArcI arc;
 				/*if (validZ)*/ arc.Zoom = this->Z;
-				/*if (validX)*/ arc.Centre = this->X;
+				/*if (validX)*/ arc.Centre = X;
 				arc.CW = this->CW;
 
 				// parse row
@@ -156,7 +161,7 @@ namespace Updraft
 			{
 				ArcII arc;
 				/*if (validZ)*/ arc.Zoom = this->Z;
-				/*if (validX)*/ arc.Centre = this->X;
+				/*if (validX)*/ arc.Centre = X;
 				arc.CW = this->CW;
 
 				// parse row
@@ -176,10 +181,11 @@ namespace Updraft
 			{
 				Circle cir;
 				/*if (validZ)*/ cir.Zoom = this->Z;
-				/*if (validX)*/ cir.Centre = this->X;
+				/*if (validX)*/ cir.Centre = X;
 
 				// parse row
 				cir.R = parse.toInt();
+				cir.valid = true;
 				this->DC.push_back(cir);
 			}
 
