@@ -134,18 +134,18 @@ namespace Updraft {
 		/// Required.
 		QString AN;
 		bool validAN;
-
-		/// Airspace Ceiling
-		/// Altitude ciling of the airspace in ft.
-		/// AH < AL
-		QString AH;
-		bool validAH;
-
+		
 		/// Airspace Floor.
 		/// Altitude floor of the airspace in ft.
 		/// Use -10000 for SFC.
 		QString AL;
 		bool validAL;
+		
+		/// Airspace Ceiling
+		/// Altitude ciling of the airspace in ft.
+		/// AH < AL
+		QString AH;
+		bool validAH;
 
 		/// Airspace name label coordinates.
 		/// List of coordinates, where to place the airspace name label on the map.
@@ -156,6 +156,13 @@ namespace Updraft {
 		/// Terrain open polygon name
 		QString TO;
 		bool validTO;
+
+		/// Terrain closed polygon
+		QString TC;
+		bool validTC;
+
+		/// Brush var
+		QString SP,SB;
 
 		/// \}
 		/// Record type - terrain & airspace \{
@@ -218,6 +225,8 @@ namespace Updraft {
 		QList<Circle> DC;
 		/// \}
 
+		/// Airway
+		QList<Coordinate> DY;
 		/// \}
 	};// UserAirspace
 

@@ -10,13 +10,15 @@ namespace Updraft
 		this->validAL = false;
 		this->validAH = false;
 		this->validTO = false;
-		this->validX  = false;
+		//this->validX  = false;
 		this->CW      = true;
 		this->Wi      = -1;
-		this->validZ  = false;
+		//this->validZ  = false;
 		this->validDA = false;
 		this->validDB = false;
 		//float Airspace::Z;
+		this->X.valid = false;
+		this->Z = -1;
 
 		ts >> text;
 		if (text != "AC") return;
@@ -65,10 +67,33 @@ namespace Updraft
 				validAH = true;
 			}
 
-			else if (text == "AT")
+			else if (text == "AT")//TODO: kontrola
 			{
-				Coordinate* cor = new Coordinate(ParseCoord(parse));
-				AT.push_back(*cor); 
+				this->AT.push_back(ParseCoord(parse)); 
+			}
+
+			else if (text == "TO")
+			{
+				this->TO = parse;
+				validTO = true;
+			}
+
+			else if (text == "TC")
+			{
+				this->TC = parse;
+				validTC = true;
+			}
+
+			else if (text == "SP")
+			{
+				this->SP = parse;
+				//validSP = true;
+			}
+
+			else if (text == "SB")
+			{
+				this->SB = parse;
+				//validSB = true;
 			}
 
 			else if (text == "V")
@@ -78,7 +103,7 @@ namespace Updraft
 				if (ch == 'X')
 				{
 					this->X = ParseCoord(parse);
-					//this->validX = true;
+					this->validX = true;
 				}
 				else if (ch == 'D')
 				{
@@ -107,10 +132,9 @@ namespace Updraft
 			else if (text == "DA")
 			{
 				//init
-				//TODO : ArcI* arc = new ArcI;
 				ArcI arc;
-				if (validZ) arc.Zoom = this->Z;
-				if (validX) arc.Centre = this->X;
+				/*if (validZ)*/ arc.Zoom = this->Z;
+				/*if (validX)*/ arc.Centre = this->X;
 				arc.CW = this->CW;
 
 				// parse row
@@ -125,16 +149,14 @@ namespace Updraft
 				arc.End = parse.toInt();
 
 				arc.valid = true;
-				this->DA.push_back(arc); //TODO : pointery! = destruktory!
+				this->DA.push_back(arc); 
 			}
 
 			else if (text == "DB")
 			{
-				//init
-				//TODO : ArcI* arc = new ArcI;
 				ArcII arc;
-				if (validZ) arc.Zoom = this->Z;
-				if (validX) arc.Centre = this->X;
+				/*if (validZ)*/ arc.Zoom = this->Z;
+				/*if (validX)*/ arc.Centre = this->X;
 				arc.CW = this->CW;
 
 				// parse row
@@ -147,27 +169,23 @@ namespace Updraft
 				arc.End = arc.Start = ParseCoord(parse);
 				
 				arc.valid = true;
-				this->DB.push_back(arc); //TODO : pointery! = destruktory!
+				this->DB.push_back(arc); 
 			}
 
 			else if (text == "DC")
 			{
 				Circle cir;
-				if (validZ) cir.Zoom = this->Z;
-				if (validX) cir.Centre = this->X;
+				/*if (validZ)*/ cir.Zoom = this->Z;
+				/*if (validX)*/ cir.Centre = this->X;
 
 				// parse row
 				cir.R = parse.toInt();
+				this->DC.push_back(cir);
 			}
 
 			else if (text == "DY")
 			{
-				//TODO : airways
-			}
-
-			else if (text == "DP")
-			{
-
+				this->DY.push_back(ParseCoord(parse));
 			}
 		}
 	}
