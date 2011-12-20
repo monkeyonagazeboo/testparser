@@ -71,7 +71,7 @@ namespace Updraft
 				validAH = true;
 			}
 
-			else if (text == "AT")//TODO: kontrola
+			else if (text == "AT")
 			{
 				this->AT.push_back(ParseCoord(parse)); 
 			}
