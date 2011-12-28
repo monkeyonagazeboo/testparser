@@ -23,6 +23,8 @@ namespace Updraft
 		//float Airspace::Z;
 		//this->X.valid = false;
 		this->Z = -1;
+		this->SP.valid = false;
+		this->SB.valid = false;
 
 		ts >> text;
 		if (text != "AC") return;
@@ -89,15 +91,29 @@ namespace Updraft
 			}
 
 			else if (text == "SP")
-			{//TODO: SP,SB - rozparsovat do byte
-				this->SP = parse;
-				//validSP = true;
+			{
+				int i = parse.indexOf(',');
+				SP.style = parse.left(i).toInt();
+				i = parse.indexOf(',');
+				SP.width = parse.left(i).toInt();
+				i = parse.indexOf(',');
+				SP.R = parse.left(i).toInt();
+				i = parse.indexOf(',');
+				SP.G = parse.left(i).toInt();
+				i = parse.indexOf(',');
+				SP.B = parse.left(i).toInt();
+				SP.valid = true;
 			}
 
 			else if (text == "SB")
 			{
-				this->SB = parse;
-				//validSB = true;
+				int i = parse.indexOf(',');
+				SB.R = parse.left(i).toInt();
+				i = parse.indexOf(',');
+				SB.G = parse.left(i).toInt();
+				i = parse.indexOf(',');
+				SB.B = parse.left(i).toInt();
+				SB.valid = true;
 			}
 
 			else if (text == "V")

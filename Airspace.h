@@ -139,6 +139,22 @@ namespace Updraft {
 			Coordinate Centre; // Centre of the circle in N E
 			float Zoom; // zoom /TODO: float vs int
 		};
+
+		/// Pen style structure
+		struct SP_str
+		{
+			bool valid;
+			int style;
+			int width;
+			int R, G, B;
+		};
+
+		/// Brush colour selector
+		struct SB_str
+		{
+			bool valid;
+			int R, G, B;
+		};
 		
 		/// UserAirspace class constructor code. 
 		/// This takes the filename in Userirspace free format and parses
@@ -219,8 +235,9 @@ namespace Updraft {
 		QString TC;
 		bool validTC;
 
-		/// Brush var
-		QString SP,SB;
+		/// Pen & Brush var
+		SP_str SP;
+		SB_str SB;
 
 		/// \}
 		/// Record type - terrain & airspace \{
